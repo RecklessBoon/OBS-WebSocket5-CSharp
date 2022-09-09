@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>OBS WebSocket5 C# Client</Title>
+    <Version>$(VersionPrefix)0.0.1</Version>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/RecklessBoon/OBS-WebSocket5-CSharp</PackageProjectUrl>
+    <Description>A C# asynchronous client for OBS WebSocket 5 which is shipped with OBS</Description>
+    <RepositoryUrl>https://github.com/RecklessBoon/OBS-WebSocket5-CSharp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>obs; websocket; obs28; obs-websocket-5; obs-websocket5</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
