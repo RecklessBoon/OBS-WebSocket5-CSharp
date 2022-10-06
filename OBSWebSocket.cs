@@ -127,7 +127,11 @@ namespace OBSWebSocket5
 
 
             await _WebSocket.ConnectAsync(_Address, _CTS.Token);
-            _ = _Dispatcher.BeginProcessingAsync();
+            _ = Task.Run(async () =>
+            {
+                await _Dispatcher.BeginProcessingAsync();
+                Dispose();
+            });
             _IsConnected = await authCompletion.Task;
             Connected?.Invoke(this, EventArgs.Empty);
         }

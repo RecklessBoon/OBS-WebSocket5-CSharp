@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>OBS WebSocket5 C# Client</Title>
-    <Version>$(VersionPrefix)0.0.1</Version>
+    <Version>$(VersionPrefix)0.0.2</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/RecklessBoon/OBS-WebSocket5-CSharp</PackageProjectUrl>
     <Description>A C# asynchronous client for OBS WebSocket 5 which is shipped with OBS</Description>
