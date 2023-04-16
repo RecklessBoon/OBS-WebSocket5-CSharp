@@ -2,8 +2,10 @@
 using OBSWebSocket5.Enum;
 using OBSWebSocket5.Frames;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Text;
@@ -46,24 +48,45 @@ namespace OBSWebSocket5
                 {
                     try
                     {
-                        var readBuffer = WebSocket.CreateClientBuffer(_OBS._BufferSize, _OBS._BufferSize);
-                        WebSocketReceiveResult result = null;
+                        WebSocketReceiveResult result;
+                        var buffer = new byte[_OBS._BufferSize];
+                        var offset = 0;
+                        var free = buffer.Length;
                         do
                         {
                             try
                             {
-                                result = await _ws.ReceiveAsync(readBuffer, _OBS._CTS.Token);
+                                result = await _ws.ReceiveAsync(new ArraySegment<byte>(buffer, offset, free), _OBS._CTS.Token);
+                                offset += result.Count;
+                                free -= result.Count;
+                                if (result.EndOfMessage) break;
+                                if (free == 0)
+                                {
+                                    var newSize = buffer.Length + _OBS._BufferSize;
+                                    if (newSize > 2000000000)
+                                    {
+                                        throw new Exception("Maximum size exceeded");
+                                    }
+
+                                    var newBuffer = new byte[newSize];
+                                    Array.Copy(buffer, 0, newBuffer, 0, offset);
+                                    buffer = newBuffer;
+                                    free = buffer.Length - offset;
+                                }
                             }
-                            catch (OperationCanceledException) { break; }
+                            catch (OperationCanceledException)
+                            {
+                                break;
+                            }
                         } while (!result.EndOfMessage);
 
-                        _ = Task.Run(() => ProcessMessage(readBuffer));
+                        _ = Task.Run(() => ProcessMessage(buffer));
                     }
                     catch (OperationCanceledException) { break; }
                 }
             }
 
-            public void ProcessMessage(ArraySegment<byte> readBuffer)
+            public void ProcessMessage(byte[] readBuffer)
             {
                 var json = Encoding.UTF8.GetString(readBuffer).TrimEnd('\0');
                 if (json.Equals(String.Empty)) return;

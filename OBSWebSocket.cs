@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static OBSWebSocket5.OBSWebSocket.MessageDispatcher.FrameEventArgs;
 using static OBSWebSocket5.Frames.HelloFrameData;
 using static OBSWebSocket5.OBSWebSocket.MessageDispatcher;
 
